@@ -1,0 +1,7 @@
+{% extends 'employees/index.html' %}
+
+{% block content %}
+    {% for employee in employees %}
+        <p></p><button type="button" class="btn btn-info">{{employee.last_name}} {{employee.first_name}}</button></p>
+    {% endfor %}
+{% endblock %}

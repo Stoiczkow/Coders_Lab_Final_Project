@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
+from employees.views import AssignTaskView, EmployeesView, MainPageView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^index/$', MainPageView.as_view(), name="index"),
+    url(r'^employees/$', EmployeesView.as_view(), name="employee")
+    url(r'^task/$', AssignTaskView.as_view(), name="task")
+
 ]
