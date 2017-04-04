@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'employee_management.wsgi.application'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
-        'NAME': 'employee_management',
+        'NAME': 'proba4',
         'ENGINE': 'mysql.connector.django',
         'USER': 'root',
         'PASSWORD': 'coderslab',
