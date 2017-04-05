@@ -15,14 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from employees.views import  AddTaskView, AllTasksView, EmployeeView, EmployeesView, MainPageView, TaskView
+from employees.views import (ActiveTasksView, AddEmployeeView, AddTaskView, AllTasksView, EditEmployeeView,
+                             LoginView, LogoutView, EmployeeView, EmployeesView, MainPageView, TaskView)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^login/$', LoginView.as_view(), name="login"),
+    url(r'^logout/', LogoutView.as_view(), name="logout"),
     url(r'^index/$', MainPageView.as_view(), name="index"),
     url(r'^employees/$', EmployeesView.as_view(), name="employees"),
     url(r'^employee/(?P<id>(\d)+)/$', EmployeeView.as_view(), name="employee"),
+    url(r'^addemployee/$', AddEmployeeView.as_view(), name="add_employee"),
+    url(r'^editemployee/(?P<pk>(\d)+)/$', EditEmployeeView.as_view(), name="edit_employee"),
     url(r'^addtask/$', AddTaskView.as_view(), name="add_task"),
     url(r'^alltasks/$', AllTasksView.as_view(), name="all_tasks"),
+    url(r'^activetasks/$', ActiveTasksView.as_view(), name="active_tasks"),
     url(r'^task/(?P<id>(\d)+)/$', TaskView.as_view(), name="task")
 
 ]

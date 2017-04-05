@@ -3,11 +3,9 @@
 {% block content %}
     {% for task in tasks %}
         <p><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a>
-            {% if task.is_active == 1 %}
-                <span class="label label-success">W trakcie</span>
-            {% else %}
-                <span class="label label-warning">Zakończone</span>
-            {% endif %}
+            <span class="label label-success">W trakcie</span>
+
         </p>
     {% endfor %}
+
 {% endblock %}
