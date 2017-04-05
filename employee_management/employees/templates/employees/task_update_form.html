@@ -3,6 +3,7 @@
 {% block content %}
     <form action="" method="POST">
         {% csrf_token %}
+        <h3>{{ task.title }}</h3>
         <table>
             {{ form.as_table }}
         </table>

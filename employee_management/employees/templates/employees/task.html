@@ -4,11 +4,21 @@
     <h4>{{ task.title }}</h4>
     <p>Termin: {{ task.start_date }} - {{ task.end_date }}</p>
     <p>Stanowisko: {{ task.stand }}</p>
+    Wykonanie planu: </br>
+    Cel: {{ task.target }}</br>
+    Wykonano: {{ task.accomplishment }} </br>
+
+    {% if task.target <= task.accomplishment %}
+        <span class="label label-success">Plan wykonany</span>
+    {% else %}
+        <span class="label label-danger">Plan niewykonany</span>
+    {% endif %}
     <h5>Pracownicy:</h5>
     <ul>
         {% for employee in employees %}
         <li><a href="{% url 'employee' id=employee.pk%}">{{ employee.last_name }} {{ employee.first_name }}</a></li>
         {% endfor %}
+
     </ul>
 
 {% endblock %}

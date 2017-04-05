@@ -1,11 +1,13 @@
 {% extends 'employees/index.html' %}
 
 {% block content %}
+<p>
     {% for task in tasks %}
         <p><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a>
             <span class="label label-success">W trakcie</span>
-
+            <a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a>
         </p>
     {% endfor %}
+</p>
 
 {% endblock %}

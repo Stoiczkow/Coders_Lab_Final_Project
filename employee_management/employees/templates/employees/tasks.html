@@ -5,8 +5,12 @@
         <p><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a>
             {% if task.is_active == 1 %}
                 <span class="label label-success">W trakcie</span>
-            {% else %}
+                <a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a>
+            {% elif task.is_closed == 0 %}
                 <span class="label label-warning">Zakończone</span>
+                <a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a>
+            {% elif task.is_closed == 1 %}
+                <span class="label label-danger">Zamknięte</span>
             {% endif %}
         </p>
     {% endfor %}

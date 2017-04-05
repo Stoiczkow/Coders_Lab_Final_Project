@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from employees.views import (ActiveTasksView, AddEmployeeView, AddTaskView, AllTasksView, EditEmployeeView,
-                             LoginView, LogoutView, EmployeeView, EmployeesView, MainPageView, TaskView)
+from employees.views import *
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', LoginView.as_view(), name="login"),
@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^addtask/$', AddTaskView.as_view(), name="add_task"),
     url(r'^alltasks/$', AllTasksView.as_view(), name="all_tasks"),
     url(r'^activetasks/$', ActiveTasksView.as_view(), name="active_tasks"),
-    url(r'^task/(?P<id>(\d)+)/$', TaskView.as_view(), name="task")
+    url(r'^toclosetasks/$', ToCloseTasksView.as_view(), name="to_close_tasks"),
+    url(r'^task/(?P<id>(\d)+)/$', TaskView.as_view(), name="task"),
+    url(r'^edittask/(?P<pk>(\d)+)/$', EditTaskView.as_view(), name="edit_task")
 
 ]

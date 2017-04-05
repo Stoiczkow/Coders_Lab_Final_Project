@@ -17,7 +17,7 @@ class Employee(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("add_employee")
+        return reverse("employees")
 
 class Stand(models.Model):
     name = models.CharField(max_length=64)
@@ -36,7 +36,10 @@ class Task(models.Model):
     start_date = models.DateField(verbose_name="Początek zlecenia")
     end_date = models.DateField(verbose_name="Koniec zlecenia")
     employees = models.ManyToManyField(Employee, verbose_name="Pracownicy")
-    is_active = models.BooleanField(default=True, verbose_name="Zlecenie w trakcie?")
+    is_active = models.BooleanField(default=True)
+    target = models.IntegerField(verbose_name="Cel")
+    accomplishment = models.IntegerField(default=0, verbose_name="Wykonanie")
+    is_closed = models.BooleanField(default=False, verbose_name="Zamknij zlecenie")
 
     def get_absolute_url(self):
-        return reverse("add_task")
+        return reverse("all_tasks")

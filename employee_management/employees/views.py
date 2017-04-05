@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, Task
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView
-from datetime import datetime
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -11,8 +9,6 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
-from django.core.exceptions import ValidationError
-
 # Create your views here.
 
 def task_date_check(tasks):
@@ -92,21 +88,28 @@ class ActiveTasksView(LoginRequiredMixin, View):
     def get(self, request):
         tasks = Task.objects.filter(is_active=True).order_by('-end_date')
         task_date_check(tasks)
-        ctx = {'tasks': tasks}
+        current_date = datetime.now().date()
+        ctx = {'tasks': tasks, 'current_date':current_date}
         return render(request, 'employees/active_tasks.html', ctx)
+
+
+class ToCloseTasksView(LoginRequiredMixin, View):
+    def get(self, request):
+        tasks = Task.objects.filter(is_active = False, is_closed = False)
+        ctx = {'tasks':tasks}
+        return render(request, 'employees/to_close.html', ctx)
 
 class TaskView(LoginRequiredMixin, View):
     def get(self, request, id):
         task = Task.objects.get(pk=id)
         employees = task.employees.all()
-        current_date = datetime.now().date()
-        ctx = {'task':task, 'employees':employees, 'current_date':current_date}
+        ctx = {'task':task, 'employees':employees}
         return render(request, 'employees/task.html', ctx)
 
 
 class AddTaskView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = "__all__"
+    fields = ['title', 'stand', 'start_date', 'end_date', 'target', 'employees']
 
     def form_valid(self, form):
         start_date = form.cleaned_data["start_date"]
@@ -114,10 +117,23 @@ class AddTaskView(LoginRequiredMixin, CreateView):
         stand = form.cleaned_data["stand"]
         tasks = Task.objects.all()
 
+        if end_date < datetime.now().date():
+            form.cleaned_data['is_active'] = False
+
+        if start_date > end_date:
+            ctx = {'form': form,
+                   'error': "Data rozpoczęcia jest późniejsza niż data zakończenia"}
+
         for task in tasks:
             if (task.start_date <= start_date <= task.end_date or task.start_date <= end_date <= task.end_date) and task.stand == stand:
-                return HttpResponse("Źleeee")
-                #raise ValidationError("Stanowisko jest zajęte w podanym czasie")
+                ctx = {'form':form,
+                    'error':"Stanowisko jest zajęte w podanym czasie, wybierz inny okres lub inne stanowisko"}
+                return render(self.request, 'employees/task_form.html', ctx)
 
         form.save()
         return HttpResponseRedirect("/alltasks/")
+
+class EditTaskView(LoginRequiredMixin, UpdateView):
+    model = Task
+    fields = ['accomplishment', 'is_closed']
+    template_name_suffix = '_update_form'

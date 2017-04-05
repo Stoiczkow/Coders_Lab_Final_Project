@@ -3,7 +3,7 @@
 {% block content %}
     <form action="{% url 'add_employee' %}" method="POST">
         {% csrf_token %}
-        {{ form }}
+        <table>{{ form.as_table }}</table>
         <input type="submit" class="btn btn-success" value="Dodaj pracownika"/>
     </form>
 {% endblock %}
