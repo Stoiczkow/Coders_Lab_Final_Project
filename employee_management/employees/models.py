@@ -35,11 +35,12 @@ class Task(models.Model):
     stand = models.ForeignKey(Stand)
     start_date = models.DateField(verbose_name="Początek zlecenia")
     end_date = models.DateField(verbose_name="Koniec zlecenia")
-    employees = models.ManyToManyField(Employee, verbose_name="Pracownicy")
+    employees = models.ManyToManyField(Employee, verbose_name="Pracownicy", blank=True)
     is_active = models.BooleanField(default=True)
     target = models.IntegerField(verbose_name="Cel")
     accomplishment = models.IntegerField(default=0, verbose_name="Wykonanie")
     is_closed = models.BooleanField(default=False, verbose_name="Zamknij zlecenie")
+    is_taken = models.BooleanField(default=False, verbose_name="Zajmij zlecenie")
 
     def get_absolute_url(self):
         return reverse("all_tasks")

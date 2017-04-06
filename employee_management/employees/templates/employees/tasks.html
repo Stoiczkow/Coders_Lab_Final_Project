@@ -1,17 +1,25 @@
 {% extends 'employees/index.html' %}
 
 {% block content %}
+<p>
+<table class="table table-condensed">
     {% for task in tasks %}
-        <p><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a>
+    <tr>
+        <td><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a></td>
             {% if task.is_active == 1 %}
-                <span class="label label-success">W trakcie</span>
-                <a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a>
+                <td><span class="label label-success">W trakcie</span></td>
+                <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
             {% elif task.is_closed == 0 %}
-                <span class="label label-warning">Zakończone</span>
-                <a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a>
+                <td><span class="label label-warning">Zakończone</span>
+                <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
             {% elif task.is_closed == 1 %}
-                <span class="label label-danger">Zamknięte</span>
+                <td><span class="label label-danger">Zamknięte</span></td>
             {% endif %}
-        </p>
+            {% if task.is_taken == False and task.is_active == True%}
+                <td><a href="{% url 'take_task' pk=task.pk %}"><span class="label label-primary">Zajmij zlecenie</span></a></td>
+            {% endif %}
+    </tr>
     {% endfor %}
+</table>
+</p>
 {% endblock %}

@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from datetime import datetime
 # Create your views here.
 
@@ -99,6 +99,14 @@ class ToCloseTasksView(LoginRequiredMixin, View):
         ctx = {'tasks':tasks}
         return render(request, 'employees/to_close.html', ctx)
 
+
+class TakenTasksView(LoginRequiredMixin, View):
+    def get(self, request):
+        tasks = Task.objects.filter(is_taken = True)
+        ctx = {'tasks':tasks}
+        return render(request, 'employees/taken_tasks.html', ctx)
+
+
 class TaskView(LoginRequiredMixin, View):
     def get(self, request, id):
         task = Task.objects.get(pk=id)
@@ -107,9 +115,11 @@ class TaskView(LoginRequiredMixin, View):
         return render(request, 'employees/task.html', ctx)
 
 
-class AddTaskView(LoginRequiredMixin, CreateView):
+class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = ['employees.add_task']
     model = Task
-    fields = ['title', 'stand', 'start_date', 'end_date', 'target', 'employees']
+    fields = ['title', 'stand', 'start_date', 'end_date', 'target']
+    success_url = '/activetasks/'
 
     def form_valid(self, form):
         start_date = form.cleaned_data["start_date"]
@@ -137,3 +147,10 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['accomplishment', 'is_closed']
     template_name_suffix = '_update_form'
+    success_url = '/activetasks/'
+
+class TakeTaskView(LoginRequiredMixin, UpdateView):
+    model = Task
+    fields = ['employees', 'is_taken']
+    template_name_suffix = '_take_form'
+    success_url = '/activetasks/'

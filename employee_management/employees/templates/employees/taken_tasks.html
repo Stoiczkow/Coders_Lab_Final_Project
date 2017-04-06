@@ -4,16 +4,14 @@
 <p>
 <table class="table table-condensed">
     {% for task in tasks %}
-
-    <tr>
-        <td><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a></td>
-        <td><span class="label label-success">W trakcie</span></td>
-        <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
+        <tr>
+            <td><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a></td>
+            <td><span class="label label-success">W trakcie</span></td>
+            <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
             {% if task.is_taken == False %}
                 <td><a href="{% url 'take_task' pk=task.pk %}"><span class="label label-primary">Zajmij zlecenie</span></a></td>
             {% endif %}
-
-    </tr>
+        </tr>
     {% endfor %}
 </table>
 </p>
