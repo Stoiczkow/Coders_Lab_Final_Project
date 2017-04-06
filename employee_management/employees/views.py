@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from datetime import datetime
-from django.contrib.auth.models import User
+
 # Create your views here.
 
 def task_date_check(tasks):

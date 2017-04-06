@@ -16,7 +16,7 @@
     <h5>Pracownicy:</h5>
 
         {% for employee in employees %}
-        <p><a href="{% url 'employee' id=employee.pk%}">{{ employee.last_name }} {{ employee.first_name }}</a></p>
+        <p><a href="{% url 'employee' id=employee.pk%}"><span class="label label-info">{{ employee.last_name }} {{ employee.first_name }}</span></a></p>
         {% endfor %}
 
 
