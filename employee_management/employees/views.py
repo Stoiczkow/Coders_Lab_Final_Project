@@ -1,10 +1,9 @@
 from django.views import View
 from .models import Employee, Task
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
-from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -138,6 +137,7 @@ class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         if start_date > end_date:
             ctx = {'form': form,
                    'error': "Data rozpoczęcia jest późniejsza niż data zakończenia"}
+            return render(self.request, 'employees/task_form.html', ctx)
 
         for task in tasks:
             if (task.start_date <= start_date <= task.end_date or task.start_date <= end_date <= task.end_date) and task.stand == stand:
@@ -162,7 +162,5 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
     template_name_suffix = '_take_form'
     success_url = '/activetasks/'
 
-
-
-
-
+    # def get_object(self):
+    #     object = super(UpdateView, self).get_object()
