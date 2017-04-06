@@ -151,10 +151,15 @@ class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 class EditTaskView(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['accomplishment', 'is_closed']
+    fields = ['accomplishment', 'end_date', 'is_closed']
     template_name_suffix = '_update_form'
     success_url = '/alltasks/'
 
+    #getting to field in view
+    def get_object(self):
+        object = super(UpdateView, self).get_object()
+        object.end_date = datetime.now().date()
+        return object
 
 class TakeTaskView(LoginRequiredMixin, UpdateView):
     model = Task
@@ -162,5 +167,8 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
     template_name_suffix = '_take_form'
     success_url = '/activetasks/'
 
-    # def get_object(self):
-    #     object = super(UpdateView, self).get_object()
+    def get_object(self):
+        object = super(UpdateView, self).get_object()
+        object.employees.choices = Employee.objects.filter(pk=6)
+        object.save()
+        return object
