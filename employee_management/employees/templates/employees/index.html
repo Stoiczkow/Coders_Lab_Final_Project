@@ -19,14 +19,13 @@
             {% endif %}
         </div>
 
-        <div  class="container" class="col-sm-12">
-            <div class="jumbotron">
-                <h1><center>Zarządzaj pracownikami</center></h1>
-            </div>
+        <div  class="container">
+
         </div>
 
-        <div class="container">
-            <div>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <center><div>
                 <a href="{% url 'taken_tasks' %}"><button type="button" class="btn btn-primary">Zajęte zlecenia</button></a>
                 <a href="{% url 'active_tasks' %}"><button type="button" class="btn btn-primary">Aktywne zlecenia</button></a>
                 <a href="{% url 'to_close_tasks' %}"><button type="button" class="btn btn-primary">Zlecenia do zamknięcia</button></a>
@@ -34,12 +33,16 @@
                 <a href="{% url 'employees' %}"><button type="button" class="btn btn-primary">Lista pracowników</button></a>
                 <a href="{% url 'add_task' %}"><button type="button" class="btn btn-primary">Dodaj zlecenie</button></a>
                 <a href="{% url 'add_employee' %}"><button type="button" class="btn btn-primary">Dodaj pracownika</button></a>
-            </div>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}"><button type="button" class="btn btn-info pull-right">Zalogowany: {{ user }} / Wyloguj się</button></a>
+                {% endif %}
+            </div></center>
         </div>
-        <div class="container" class="col-sm-12">
-            {% block content %}
+        </nav>
+        <div class="container" style="margin-top:50px">
+            <center>{% block content %}
 
-            {% endblock %}
+            {% endblock %}</center>
         </div>
         {% endblock %}
     </body>

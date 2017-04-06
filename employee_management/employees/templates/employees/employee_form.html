@@ -1,9 +1,11 @@
 {% extends 'employees/index.html' %}
 
 {% block content %}
+<p>
     <form action="{% url 'add_employee' %}" method="POST">
         {% csrf_token %}
         <table>{{ form.as_table }}</table>
-        <input type="submit" class="btn btn-success" value="Dodaj pracownika"/>
+        <p><input type="submit" class="btn btn-success" value="Dodaj pracownika"/></p>
     </form>
+</p>
 {% endblock %}

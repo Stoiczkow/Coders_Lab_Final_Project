@@ -164,3 +164,6 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
 
 
 
+
+
+

@@ -14,11 +14,11 @@
         <span class="label label-danger">Plan niewykonany</span>
     {% endif %}
     <h5>Pracownicy:</h5>
-    <ul>
+
         {% for employee in employees %}
-        <li><a href="{% url 'employee' id=employee.pk%}">{{ employee.last_name }} {{ employee.first_name }}</a></li>
+        <p><a href="{% url 'employee' id=employee.pk%}">{{ employee.last_name }} {{ employee.first_name }}</a></p>
         {% endfor %}
 
-    </ul>
+
 
 {% endblock %}
