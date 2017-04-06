@@ -4,10 +4,22 @@ from django.core.validators import MinValueValidator
 from .validators import valid_date
 
 # Create your models here.
+class Stand(models.Model):
+    name = models.CharField(max_length=64)
+
+    @property
+    def stand_name(self):
+        return "{}".format(self.name)
+
+    def __str__(self):
+        return self.stand_name
+
+
 class Employee(models.Model):
     first_name = models.CharField(max_length=64, verbose_name="Imię")
     last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
     basic_salary = models.FloatField(verbose_name="Płaca podstawowa",  validators = [MinValueValidator(0.0)])
+
 
     @property
     def name(self):
@@ -18,16 +30,6 @@ class Employee(models.Model):
 
     def get_absolute_url(self):
         return reverse("employees")
-
-class Stand(models.Model):
-    name = models.CharField(max_length=64)
-
-    @property
-    def stand_name(self):
-        return "{}".format(self.name)
-
-    def __str__(self):
-        return self.stand_name
 
 
 class Task(models.Model):

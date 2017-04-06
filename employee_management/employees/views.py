@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from datetime import datetime
+from django.contrib.auth.models import User
 # Create your views here.
 
 def task_date_check(tasks):
@@ -20,6 +21,7 @@ def task_date_check(tasks):
         else:
             task.is_active = True
             task.save()
+
 
 class LoginView(View):
     def get(self, request):
@@ -38,6 +40,7 @@ class LoginView(View):
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, "employees/login.html", ctx)
+
 
 class LogoutView(View):
     def get(self, request):
@@ -66,7 +69,8 @@ class EmployeeView(LoginRequiredMixin,View):
         return render(request, 'employees/employee.html', ctx)
 
 
-class AddEmployeeView(LoginRequiredMixin, CreateView):
+class AddEmployeeView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = ['employees.add_employee']
     model = Employee
     fields = '__all__'
 
@@ -83,6 +87,7 @@ class AllTasksView(LoginRequiredMixin, View):
         task_date_check(tasks)
         ctx = {'tasks': tasks}
         return render(request, 'employees/tasks.html', ctx)
+
 
 class ActiveTasksView(LoginRequiredMixin, View):
     def get(self, request):
@@ -143,14 +148,19 @@ class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         form.save()
         return HttpResponseRedirect("/alltasks/")
 
+
 class EditTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['accomplishment', 'is_closed']
     template_name_suffix = '_update_form'
-    success_url = '/activetasks/'
+    success_url = '/alltasks/'
+
 
 class TakeTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['employees', 'is_taken']
     template_name_suffix = '_take_form'
     success_url = '/activetasks/'
+
+
+

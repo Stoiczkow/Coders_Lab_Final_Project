@@ -5,11 +5,18 @@
 <table class="table table-condensed">
     {% for task in tasks %}
         <tr>
-            <td><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a></td>
-            <td><span class="label label-success">W trakcie</span></td>
-            <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
-            {% if task.is_taken == False %}
-                <td><a href="{% url 'take_task' pk=task.pk %}"><span class="label label-primary">Zajmij zlecenie</span></a></td>
+            {% if task.is_closed == False  and task.is_taken == True%}
+                <td><a href="{% url 'task' id=task.pk %}"><button type="button" class="btn btn-info">{{task.title}} </button></a></td>
+
+                {% if task.is_active == True %}
+                    <td><span class="label label-success">W trakcie</span></td>
+                {% elif task.is_active == False %}
+                    <td><span class="label label-warning">Zakończone</span>
+                {% endif %}
+
+                <td><a href="{% url 'edit_task' pk=task.pk %}"><span class="label label-default">Zamknij zlecenie / Edytuj</span></a></td>
+
+
             {% endif %}
         </tr>
     {% endfor %}
