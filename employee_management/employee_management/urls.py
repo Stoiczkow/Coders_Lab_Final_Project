@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^takentasks/$', TakenTasksView.as_view(), name="taken_tasks"),
     url(r'^toclosetasks/$', ToCloseTasksView.as_view(), name="to_close_tasks"),
     url(r'^task/(?P<id>(\d)+)/$', TaskView.as_view(), name="task"),
-    url(r'^edittask/(?P<pk>(\d)+)/$', EditTaskView.as_view(), name="edit_task")
+    url(r'^edittask/(?P<pk>(\d)+)/$', EditTaskView.as_view(), name="edit_task"),
 
 ]

@@ -34,7 +34,7 @@ class Employee(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=256, verbose_name="Nazwa")
-    stand = models.ForeignKey(Stand)
+    stand = models.ForeignKey(Stand, verbose_name="Stanowisko")
     start_date = models.DateField(verbose_name="Początek zlecenia")
     end_date = models.DateField(verbose_name="Koniec zlecenia")
     employees = models.ManyToManyField(Employee, verbose_name="Pracownicy", blank=True)

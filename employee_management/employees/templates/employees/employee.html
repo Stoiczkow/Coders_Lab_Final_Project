@@ -1,11 +1,19 @@
 {% extends 'employees/index.html' %}
-
+{% load static %}
+{% block script %}
+<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="{% static 'js/chart.js' %}" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
     <h4>{{ employee.last_name }} {{ employee.first_name }}</h4>
-    <p>Aktualne zadania:</p>
-    <ul>
+    <p>Zlecenia pracownika:</p>
+
     {% for task in tasks %}
-        <li><a href="{% url 'task' id=task.pk%}">{{ task.title }}</a></li>
+        <p><a href="{% url 'task' id=task.pk%}"><span class="label label-info" value="{{ task.accomplishment}}" value2="{{ task.end_date}}">{{ task.title }}</span></a></p>
     {% endfor %}
-    </ul>
+
+
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
 {% endblock %}

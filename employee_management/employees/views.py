@@ -64,7 +64,7 @@ class EmployeesView(LoginRequiredMixin,View):
 class EmployeeView(LoginRequiredMixin,View):
     def get(self, request, id):
         employee = Employee.objects.get(pk=id)
-        tasks = Task.objects.filter(employees=employee)
+        tasks = Task.objects.filter(employees=employee).order_by("end_date")
         ctx = {'employee': employee, 'tasks':tasks}
         return render(request, 'employees/employee.html', ctx)
 
@@ -161,7 +161,6 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
     fields = ['employees', 'is_taken']
     template_name_suffix = '_take_form'
     success_url = '/activetasks/'
-
 
 
 

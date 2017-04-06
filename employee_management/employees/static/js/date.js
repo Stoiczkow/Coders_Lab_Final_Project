@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
+
 var start = document.querySelector("#id_start_date")
 var end = document.querySelector("#id_end_date")
 start.removeAttribute("type")
