@@ -2,7 +2,7 @@ from django.views import View
 from .models import Employee, Task
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import LoginForm, TakeTaskForm
+from .forms import LoginForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -165,7 +165,15 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
         return form
 
 
+def avalible_employees():
+    employees = Employee.objects.all()
+    for employee in employees:
+        employee.is_available = False
+        employee.save()
+
+
 class TakeTaskView(LoginRequiredMixin, UpdateView):
+    avalible_employees()
     model = Task
     fields = ['employees', 'is_taken']
     template_name_suffix = '_take_form'

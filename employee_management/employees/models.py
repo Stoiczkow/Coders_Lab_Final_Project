@@ -31,11 +31,6 @@ class Employee(models.Model):
     def get_absolute_url(self):
         return reverse("employees")
 
-def avalible_employees():
-    employees = Employee.objects.filter(basic_salary=2000)
-    employees_choices = {}
-    for employee in employees:
-        employees_choices['id']=str(employee.last_name)
 
 class Task(models.Model):
     title = models.CharField(max_length=256, verbose_name="Nazwa")
@@ -51,3 +46,4 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse("all_tasks")
+
