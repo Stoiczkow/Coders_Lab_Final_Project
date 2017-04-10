@@ -2,7 +2,7 @@ from django.views import View
 from .models import Employee, Task
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import LoginForm
+from .forms import LoginForm, TakeTaskForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -11,6 +11,7 @@ from datetime import datetime
 from django.db import models
 from django import forms
 from django.forms import ModelForm
+
 # Create your views here.
 
 def task_date_check(tasks):
@@ -159,9 +160,10 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
 
     #getting to field in view
     def get_object(self):
-        object = super(UpdateView, self).get_object()
-        object.end_date = datetime.now().date()
-        return object
+        form = super(UpdateView, self).get_object()
+        form.end_date = datetime.now().date()
+        return form
+
 
 class TakeTaskView(LoginRequiredMixin, UpdateView):
     model = Task
@@ -169,16 +171,3 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
     template_name_suffix = '_take_form'
     success_url = '/takentasks/'
 
-    # def get_object(self):
-    #     object = super(UpdateView, self).get_object()
-    #     return object
-    #
-    def get_form_class(self):
-        object = super(UpdateView, self).get_form_class()
-        #object.employees
-        #forms.MultipleChoiceField(limit_choices_to={'is_staff': True})
-        return object
-#choices=Employee.objects.filter(pk=2).values_list('id', 'last_name')
-    # def __init__(self):
-    #     self.employees = forms.MultipleChoiceField(limit_choices_to={'is_staff': True})
-    #     return None
