@@ -8,7 +8,9 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from datetime import datetime
-
+from django.db import models
+from django import forms
+from django.forms import ModelForm
 # Create your views here.
 
 def task_date_check(tasks):
@@ -165,10 +167,18 @@ class TakeTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['employees', 'is_taken']
     template_name_suffix = '_take_form'
-    success_url = '/activetasks/'
+    success_url = '/takentasks/'
 
-    def get_object(self):
-        object = super(UpdateView, self).get_object()
-        object.employees.choices = Employee.objects.filter(pk=6)
-        object.save()
+    # def get_object(self):
+    #     object = super(UpdateView, self).get_object()
+    #     return object
+    #
+    def get_form_class(self):
+        object = super(UpdateView, self).get_form_class()
+        #object.employees
+        #forms.MultipleChoiceField(limit_choices_to={'is_staff': True})
         return object
+#choices=Employee.objects.filter(pk=2).values_list('id', 'last_name')
+    # def __init__(self):
+    #     self.employees = forms.MultipleChoiceField(limit_choices_to={'is_staff': True})
+    #     return None
