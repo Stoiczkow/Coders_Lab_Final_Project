@@ -149,7 +149,7 @@ class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                 return render(self.request, 'employees/task_form.html', ctx)
 
         form.save()
-        return HttpResponseRedirect("/alltasks/")
+        return HttpResponseRedirect("/activetasks/")
 
 
 class EditTaskView(LoginRequiredMixin, UpdateView):
@@ -164,16 +164,25 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
         form.end_date = datetime.now().date()
         return form
 
-
-def avalible_employees():
-    employees = Employee.objects.all()
-    for employee in employees:
-        employee.is_available = False
-        employee.save()
+# validation if employee is available in time of task
+def available_employees(id):
+    task = Task.objects.get(pk=id)
+    tasks = Task.objects.exclude(pk=id)
+    for i in tasks:
+        if i.start_date <= task.start_date <= i.end_date or i.start_date <= task.end_date <= i.end_date:
+            employees_in_task = i.employees.all()
+            for j in employees_in_task:
+                j.is_available = False
+                j.save()
 
 
 class TakeTaskView(LoginRequiredMixin, UpdateView):
-    avalible_employees()
+    def get_object(self):
+        form = super(UpdateView, self).get_object()
+        id = form.id
+        available_employees(id)
+        return form
+
     model = Task
     fields = ['employees', 'is_taken']
     template_name_suffix = '_take_form'
