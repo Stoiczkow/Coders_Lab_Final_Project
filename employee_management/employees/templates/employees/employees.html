@@ -1,16 +1,19 @@
 {% extends 'employees/index.html' %}
 
 {% block content %}
-<p>
-<table class="table table-condensed">
+<p><table class="table table-condensed">
     {% for employee in employees %}
         <tr>
             <td><a href="{% url 'employee' id=employee.pk %}">
             <button type="button" class="btn btn-info">{{employee.last_name}} {{employee.first_name}}</button></a></td>
             <td><a href="{% url 'edit_employee' pk=employee.pk %}">
             <span class="label label-default">Edytuj</span></a></td>
+            {% if employee.is_employed == True %}
+                <td><span class="label label-success">Zatrudniony</span></td>
+            {% else %}
+                <td><span class="label label-warning">Nie pracuje</span></td>
+            {% endif %}
         </tr>
     {% endfor %}
-</table>
-</p>
+</table></p>
 {% endblock %}

@@ -20,6 +20,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
     basic_salary = models.FloatField(verbose_name="Płaca podstawowa",  validators = [MinValueValidator(0.0)])
     is_available = models.BooleanField(default=True)
+    is_employed = models.BooleanField(default=True, verbose_name="Pracownik jest zatrudniony")
 
     @property
     def name(self):

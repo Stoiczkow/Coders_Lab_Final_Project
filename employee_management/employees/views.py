@@ -79,7 +79,7 @@ class AddEmployeeView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 class EditEmployeeView(LoginRequiredMixin, UpdateView):
     model = Employee
-    fields = "__all__"
+    fields = ['first_name', 'last_name', 'basic_salary', 'is_employed']
     template_name_suffix = '_update_form'
 
 
