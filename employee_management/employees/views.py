@@ -74,7 +74,8 @@ class EmployeeView(LoginRequiredMixin,View):
 class AddEmployeeView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = ['employees.add_employee']
     model = Employee
-    fields = '__all__'
+    fields = ['first_name', 'last_name', 'basic_salary']
+
 
 
 class EditEmployeeView(LoginRequiredMixin, UpdateView):
