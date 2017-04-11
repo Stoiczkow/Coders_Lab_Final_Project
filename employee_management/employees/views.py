@@ -169,10 +169,13 @@ def available_employees(id):
     task = Task.objects.get(pk=id)
     tasks = Task.objects.exclude(pk=id)
     for i in tasks:
-        if i.start_date <= task.start_date <= i.end_date or i.start_date <= task.end_date <= i.end_date:
-            employees_in_task = i.employees.all()
-            for j in employees_in_task:
+        employees_in_task = i.employees.all()
+        for j in employees_in_task:
+            if i.start_date <= task.start_date <= i.end_date or i.start_date <= task.end_date <= i.end_date or j.is_employed == False:
                 j.is_available = False
+                j.save()
+            else:
+                j.is_available = True
                 j.save()
 
 

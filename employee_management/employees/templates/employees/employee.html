@@ -17,7 +17,6 @@
         <p><a href="{% url 'task' id=task.pk%}"><span class="label label-info" value="{{ task.accomplishment}}" value2="{{ task.end_date}}">{{ task.title }}</span></a></p>
     {% endfor %}
 
-<input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
 {% endblock %}
