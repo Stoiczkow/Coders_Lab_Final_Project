@@ -13,7 +13,7 @@ window.onload = function () {
 
 	var chart = new CanvasJS.Chart("chartContainer", {
 		title:{
-			text: "Wydajność"
+			text: "Wydajność pracownika"
 		},
 		data: [
 		{

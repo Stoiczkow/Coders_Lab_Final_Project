@@ -52,5 +52,10 @@ var tasks= document.querySelectorAll('.label')
 	chart.render();
 });
 
+var btn2 = document.querySelector("#choose_whole")
+
+btn2.addEventListener("click", function (){
+    location.reload();
+});
 
 });
