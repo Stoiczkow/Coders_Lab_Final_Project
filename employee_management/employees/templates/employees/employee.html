@@ -3,11 +3,7 @@
 {% block script %}
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="{% static 'js/chart.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/picker.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<script src="{% static 'js/date_range.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 
@@ -18,9 +14,11 @@
     <p>Zlecenia pracownika:</p>
 
     {% for task in tasks %}
-        <p class="hidden"><a href="{% url 'task' id=task.pk%}"><span class="label label-info" value="{{ task.accomplishment}}" value2="{{ task.end_date}}">{{ task.title }}</span></a></p>
+        <p><a href="{% url 'task' id=task.pk%}"><span class="label label-info" value="{{ task.accomplishment}}" value2="{{ task.end_date}}">{{ task.title }}</span></a></p>
     {% endfor %}
-Wybierz zakres: <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+<input id="from" name="start_date" required="" type="date"> : <input id="to" name="end_date" required="" type="date">
+<button id="choose"type="button" class="btn btn-success">Wybierz zakres</button>
+
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
 {% endblock %}
