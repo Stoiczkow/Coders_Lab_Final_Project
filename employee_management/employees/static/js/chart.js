@@ -3,11 +3,17 @@ window.onload = function () {
     var tasks= document.querySelectorAll('.label')
     var dataTasks = []
     for(var i = 0; i < tasks.length; i++){
-        dataTasks.push({ label: String(tasks[i].getAttribute('value2')),  y: parseInt(tasks[i].getAttribute('value')) })
+        if(tasks[i].classList.contains("hidden")){
+            continue;
+        }else{
+            dataTasks.push({ label: String(tasks[i].getAttribute('value2')),  y: parseInt(tasks[i].getAttribute('value')) })
+        }
+
     }
+
 	var chart = new CanvasJS.Chart("chartContainer", {
 		title:{
-			text: "Wydajność pracownika"
+			text: "Wydajność"
 		},
 		data: [
 		{
