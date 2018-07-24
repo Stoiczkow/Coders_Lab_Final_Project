@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator
 from .validators import valid_date
 
+
 # Create your models here.
 class Stand(models.Model):
     name = models.CharField(max_length=64)
@@ -18,7 +19,7 @@ class Stand(models.Model):
 class Employee(models.Model):
     first_name = models.CharField(max_length=64, verbose_name="Imię")
     last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
-    basic_salary = models.FloatField(verbose_name="Płaca podstawowa",  validators = [MinValueValidator(0.0)])
+    basic_salary = models.FloatField(verbose_name="Płaca podstawowa", validators=[MinValueValidator(0.0)])
     is_available = models.BooleanField(default=True)
     is_employed = models.BooleanField(default=True, verbose_name="Pracownik jest zatrudniony")
 
@@ -35,10 +36,11 @@ class Employee(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=256, verbose_name="Nazwa")
-    stand = models.ForeignKey(Stand, verbose_name="Stanowisko")
+    stand = models.ForeignKey(Stand, verbose_name="Stanowisko", on_delete=True)
     start_date = models.DateField(verbose_name="Początek zlecenia")
     end_date = models.DateField(verbose_name="Koniec zlecenia")
-    employees = models.ManyToManyField(Employee, verbose_name="Pracownicy", blank=True, limit_choices_to={'is_available': 'True'})
+    employees = models.ManyToManyField(Employee, verbose_name="Pracownicy", blank=True,
+                                       limit_choices_to={'is_available': 'True'})
     is_active = models.BooleanField(default=True)
     target = models.IntegerField(verbose_name="Cel")
     accomplishment = models.IntegerField(default=0, verbose_name="Wykonanie")
@@ -47,4 +49,3 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse("all_tasks")
-
